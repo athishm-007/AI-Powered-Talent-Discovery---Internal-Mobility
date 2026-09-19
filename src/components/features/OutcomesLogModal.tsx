@@ -9,7 +9,7 @@ import { OutcomeType } from '@/models/feedback';
 export interface OutcomesLogModalProps {
   isOpen: boolean;
   onClose: () => void;
-  targetId: string;
+  targetId?: string;
   defaultOutcomeType?: OutcomeType;
   targetTitle?: string;
   onSuccess?: () => void;
@@ -18,7 +18,7 @@ export interface OutcomesLogModalProps {
 export const OutcomesLogModal: React.FC<OutcomesLogModalProps> = ({
   isOpen,
   onClose,
-  targetId,
+  targetId = 'general-target',
   defaultOutcomeType = 'applied',
   targetTitle = 'Role Opportunity',
   onSuccess,

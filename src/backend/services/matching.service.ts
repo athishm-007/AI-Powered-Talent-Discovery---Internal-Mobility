@@ -70,7 +70,7 @@ export function createMatchingService(userClient: SupabaseClient, adminClient: S
       }
 
       const roleSkills = role.role_skills || [];
-      const userSkillsMap = new Map((profile.employee_skills || []).map((es: any) => [es.skill_id, es]));
+      const userSkillsMap = new Map<string, any>((profile.employee_skills || []).map((es: any) => [es.skill_id, es]));
 
       let totalEffectiveWeight = 0;
       let weightedCoverageSum = 0;

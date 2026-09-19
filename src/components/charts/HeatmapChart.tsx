@@ -4,19 +4,34 @@ import React from 'react';
 import { Badge } from '../ui/Badge';
 
 export interface HeatmapItem {
-  skill_name: string;
-  category: string;
-  supply_level: number;
-  demand_level: number;
-  gap_intensity: 'CRITICAL' | 'MODERATE' | 'STABLE';
+  skill_name?: string;
+  skill?: string;
+  category?: string;
+  department?: string;
+  supply_level?: number;
+  supplyCount?: number;
+  demand_level?: number;
+  demandCount?: number;
+  gap_intensity?: 'CRITICAL' | 'MODERATE' | 'STABLE' | string;
 }
 
 export const HeatmapChart: React.FC<{ data: HeatmapItem[] }> = ({ data }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {data.map((item, idx) => {
-        const isCritical = item.gap_intensity === 'CRITICAL';
-        const isModerate = item.gap_intensity === 'MODERATE';
+        const title = item.skill_name || item.skill || 'Skill Requirement';
+        const subtitle = item.category || item.department || 'Department';
+        const supply = item.supply_level !== undefined ? item.supply_level : (item.supplyCount || 0);
+        const demand = item.demand_level !== undefined ? item.demand_level : (item.demandCount || 0);
+        
+        let intensity = item.gap_intensity;
+        if (!intensity) {
+          const delta = demand - supply;
+          intensity = delta > 5 ? 'CRITICAL' : delta > 0 ? 'MODERATE' : 'STABLE';
+        }
+
+        const isCritical = intensity === 'CRITICAL';
+        const isModerate = intensity === 'MODERATE';
 
         return (
           <div
@@ -31,29 +46,29 @@ export const HeatmapChart: React.FC<{ data: HeatmapItem[] }> = ({ data }) => {
           >
             <div className="flex items-start justify-between gap-2 mb-2">
               <div>
-                <h4 className="font-semibold text-sm text-white">{item.skill_name}</h4>
-                <p className="text-xs text-slate-400">{item.category}</p>
+                <h4 className="font-semibold text-sm text-white">{title}</h4>
+                <p className="text-xs text-slate-400">{subtitle}</p>
               </div>
               <Badge variant={isCritical ? 'rose' : isModerate ? 'amber' : 'emerald'}>
-                {item.gap_intensity}
+                {intensity}
               </Badge>
             </div>
 
             <div className="mt-4 space-y-2 text-xs">
               <div className="flex justify-between text-slate-300">
                 <span>Supply Index:</span>
-                <span className="font-semibold text-cyan-400">{item.supply_level.toFixed(1)} / 5.0</span>
+                <span className="font-semibold text-cyan-400">{supply}</span>
               </div>
               <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-cyan-500 h-full" style={{ width: `${(item.supply_level / 5) * 100}%` }} />
+                <div className="bg-cyan-500 h-full" style={{ width: `${Math.min(100, (supply / (demand || 10)) * 100)}%` }} />
               </div>
 
               <div className="flex justify-between text-slate-300 pt-1">
                 <span>Demand Target:</span>
-                <span className="font-semibold text-indigo-400">{item.demand_level.toFixed(1)} / 5.0</span>
+                <span className="font-semibold text-indigo-400">{demand}</span>
               </div>
               <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                <div className="bg-indigo-500 h-full" style={{ width: `${(item.demand_level / 5) * 100}%` }} />
+                <div className="bg-indigo-500 h-full" style={{ width: '100%' }} />
               </div>
             </div>
           </div>

@@ -30,7 +30,7 @@ export function createGapAnalysisService(userClient: SupabaseClient, adminClient
       }
 
       const roleSkills = role.role_skills || [];
-      const userSkillsMap = new Map((profile.employee_skills || []).map((es: any) => [es.skill_id, es]));
+      const userSkillsMap = new Map<string, any>((profile.employee_skills || []).map((es: any) => [es.skill_id, es]));
 
       const missingGaps: any[] = [];
       let totalDiff = 0;
