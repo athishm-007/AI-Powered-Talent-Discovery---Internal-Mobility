@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { generatePageMetadata } from '@/lib/seo';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
+import { LoginForm } from '@/components/auth/LoginForm';
 
 export const metadata = generatePageMetadata({
   title: 'Sign In | TalentLens',
@@ -25,73 +24,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <Card className="p-8 backdrop-blur-md bg-slate-900/80 border-slate-800">
-          <form className="space-y-6" action="/api/v1/auth/login" method="POST">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-1.5">
-                Work Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                defaultValue="alex.chen@company.com"
-                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/70 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm transition-all"
-                placeholder="name@company.com"
-              />
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label htmlFor="password" className="block text-sm font-medium text-slate-300">
-                  Password
-                </label>
-                <a href="#" className="text-xs text-brand-400 hover:text-brand-300 transition-colors">
-                  Forgot password?
-                </a>
-              </div>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                defaultValue="DemoPass123!"
-                className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-700/70 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm transition-all"
-              />
-            </div>
-
-            <Button type="submit" variant="primary" size="lg" className="w-full shadow-lg shadow-brand-600/20">
-              Sign In to Account
-            </Button>
-
-            <div className="relative my-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-800"></div>
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-slate-900 px-3 text-slate-500 font-medium">Quick Demo Quick-Access</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <a
-                href="/dashboard?demo=employee"
-                className="inline-flex items-center justify-center px-3 py-2 border border-slate-700 rounded-lg text-xs font-medium text-slate-300 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-600 text-center transition-all"
-              >
-                ⚡ Employee Portal
-              </a>
-              <a
-                href="/admin?demo=hr"
-                className="inline-flex items-center justify-center px-3 py-2 border border-slate-700 rounded-lg text-xs font-medium text-slate-300 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-600 text-center transition-all"
-              >
-                🔑 HR Admin Portal
-              </a>
-            </div>
-          </form>
-        </Card>
+        <LoginForm />
 
         <p className="text-center text-xs text-slate-400">
           Don&apos;t have an account?{' '}

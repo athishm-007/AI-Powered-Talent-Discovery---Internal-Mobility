@@ -38,25 +38,23 @@ export default function LandingPage() {
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link href="/register">
-            <Button variant="primary" size="lg" className="gap-2">
-              <span>Get Started</span>
-              <ArrowRight className="w-5 h-5" />
+          <Link href="/dashboard?demo=employee">
+            <Button variant="primary" size="lg" className="gap-2 shadow-lg shadow-cyan-500/20 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border-none">
+              <Sparkles className="w-5 h-5 text-cyan-200 animate-pulse" />
+              <span>⚡ Try Employee Demo</span>
+            </Button>
+          </Link>
+          <Link href="/admin?demo=hr">
+            <Button variant="secondary" size="lg" className="gap-2 border-cyan-500/40 text-cyan-300 bg-slate-900/80 hover:bg-slate-800">
+              <ShieldCheck className="w-5 h-5 text-cyan-400" />
+              <span>🔑 Try HR Admin Demo</span>
             </Button>
           </Link>
           <Link href="/login">
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" className="border-slate-700 text-slate-300 hover:text-white">
               Sign In
             </Button>
           </Link>
-          {isDemo && (
-            <Link href="/login">
-              <Button variant="secondary" size="lg" className="gap-2 border-cyan-500/30 text-cyan-300">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <span>Try Demo Platform</span>
-              </Button>
-            </Link>
-          )}
         </div>
       </section>
 
