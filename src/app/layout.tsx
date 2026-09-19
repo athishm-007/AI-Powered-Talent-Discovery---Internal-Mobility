@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { SkipToContent } from '@/components/ui/SkipToContent';
+import { ToastProvider } from '@/components/ui/Toast';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -35,10 +36,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} dark scroll-smooth`}>
       <body className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
-        <SkipToContent />
-        <div id="main-content" className="relative flex flex-col min-h-screen">
-          {children}
-        </div>
+        <ToastProvider>
+          <SkipToContent />
+          <div id="main-content" className="relative flex flex-col min-h-screen">
+            {children}
+          </div>
+        </ToastProvider>
       </body>
     </html>
   );
