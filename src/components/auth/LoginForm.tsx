@@ -85,7 +85,7 @@ export function LoginForm() {
           variant="primary"
           size="lg"
           disabled={loading}
-          className="w-full shadow-lg shadow-brand-600/20 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500"
+          className="w-full shadow-lg shadow-cyan-500/30 bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-600 hover:from-cyan-300 hover:to-blue-500 text-slate-950 font-extrabold text-base py-3 border-none transition-all duration-200"
         >
           {loading ? 'Signing In...' : 'Sign In to Account'}
         </Button>
