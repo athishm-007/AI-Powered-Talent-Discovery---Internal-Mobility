@@ -92,9 +92,11 @@ export default function HRAdminDashboardPage() {
                   </div>
                   <p className="text-xs text-slate-400">Role: Principal Systems Architect &bull; Senior Software Engineer</p>
                 </div>
-                <Button variant="secondary" size="sm">
-                  Review Candidate Profile
-                </Button>
+                <Link href="/admin/talent">
+                  <Button variant="secondary" size="sm" className="hover:bg-cyan-500/20 hover:text-cyan-300 hover:border-cyan-500/40">
+                    Review Candidate Profile
+                  </Button>
+                </Link>
               </div>
 
               <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl flex items-center justify-between">
@@ -105,9 +107,11 @@ export default function HRAdminDashboardPage() {
                   </div>
                   <p className="text-xs text-slate-400">Role: AI Infrastructure Lead &bull; Data Engineer L5</p>
                 </div>
-                <Button variant="secondary" size="sm">
-                  Review Candidate Profile
-                </Button>
+                <Link href="/admin/talent">
+                  <Button variant="secondary" size="sm" className="hover:bg-cyan-500/20 hover:text-cyan-300 hover:border-cyan-500/40">
+                    Review Candidate Profile
+                  </Button>
+                </Link>
               </div>
             </div>
           </Card>
