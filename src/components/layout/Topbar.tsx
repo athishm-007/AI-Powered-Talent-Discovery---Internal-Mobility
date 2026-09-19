@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Menu, Search, LogOut, ShieldCheck, User, Sparkles } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
@@ -11,12 +11,12 @@ import { createSupabaseBrowserClient } from '@/lib/supabase/client';
 
 export const Topbar: React.FC<{ user?: any }> = ({ user }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
 
-  // Detect active role from path or prop
-  const path = typeof window !== 'undefined' ? window.location.pathname : '';
-  const isHrPath = path.startsWith('/admin');
+  // Detect active role from Next.js pathname hook (hydrates consistently on server & client)
+  const isHrPath = pathname?.startsWith('/admin');
   const role = isHrPath ? 'hr_admin' : (user?.app_metadata?.role || 'employee');
   const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE !== 'false';
 
