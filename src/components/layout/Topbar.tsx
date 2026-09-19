@@ -14,27 +14,32 @@ export const Topbar: React.FC<{ user?: any }> = ({ user }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
 
-  const role = user?.app_metadata?.role || 'employee';
-  const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+  // Detect active role from path or prop
+  const path = typeof window !== 'undefined' ? window.location.pathname : '';
+  const isHrPath = path.startsWith('/admin');
+  const role = isHrPath ? 'hr_admin' : (user?.app_metadata?.role || 'employee');
+  const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE !== 'false';
 
   const handleSignOut = async () => {
-    const supabase = createSupabaseBrowserClient();
-    await supabase.auth.signOut();
-    router.push('/login');
-    router.refresh();
+    try {
+      const supabase = createSupabaseBrowserClient();
+      await supabase.auth.signOut();
+    } catch {}
+    window.location.href = '/login';
   };
 
   const handleDemoSwitch = async (targetRole: 'hr_admin' | 'employee') => {
-    const email = targetRole === 'hr_admin' ? 'admin@talentlens.ai' : 'alex.chen@talentlens.ai';
-    const res = await fetch('/api/v1/auth/demo-login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ role: targetRole, email }),
-    });
-    if (res.ok) {
-      router.push(targetRole === 'hr_admin' ? '/admin' : '/dashboard');
-      router.refresh();
-    }
+    const email = targetRole === 'hr_admin' ? 'admin@talentlens.ai' : 'alex.chen@company.com';
+    try {
+      await fetch('/api/v1/auth/demo-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role: targetRole, email }),
+      });
+    } catch {}
+
+    const targetUrl = targetRole === 'hr_admin' ? '/admin?demo=hr' : '/dashboard?demo=employee';
+    window.location.href = targetUrl;
   };
 
   return (
@@ -67,20 +72,22 @@ export const Topbar: React.FC<{ user?: any }> = ({ user }) => {
 
         <div className="flex items-center gap-3">
           {isDemo && (
-            <div className="hidden md:flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 rounded-lg p-1">
-              <span className="text-[11px] font-semibold text-slate-400 px-2">Demo Switcher:</span>
+            <div className="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 rounded-lg p-1 shadow-inner">
+              <span className="text-[11px] font-semibold text-slate-400 px-2 hidden sm:inline">Demo Switcher:</span>
               <button
+                type="button"
                 onClick={() => handleDemoSwitch('employee')}
-                className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
-                  role === 'employee' ? 'bg-cyan-500/20 text-cyan-300 font-semibold' : 'text-slate-400 hover:text-white'
+                className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all cursor-pointer ${
+                  role === 'employee' ? 'bg-cyan-500/20 text-cyan-300 font-semibold border border-cyan-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
               >
                 Alex (Employee)
               </button>
               <button
+                type="button"
                 onClick={() => handleDemoSwitch('hr_admin')}
-                className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
-                  role === 'hr_admin' ? 'bg-indigo-500/20 text-indigo-300 font-semibold' : 'text-slate-400 hover:text-white'
+                className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all cursor-pointer ${
+                  role === 'hr_admin' ? 'bg-indigo-500/20 text-indigo-300 font-semibold border border-indigo-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-800'
                 }`}
               >
                 Admin (HR)
