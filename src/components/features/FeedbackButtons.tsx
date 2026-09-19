@@ -6,11 +6,15 @@ import { Button } from '../ui/Button';
 import { useToast } from '../ui/Toast';
 
 export interface FeedbackButtonsProps {
-  itemType: 'match' | 'gap' | 'resource' | 'roadmap';
-  itemId: string;
+  itemType?: 'match' | 'gap' | 'resource' | 'roadmap' | string;
+  itemId?: string;
+  targetType?: string;
+  targetId?: string;
 }
 
-export const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ itemType, itemId }) => {
+export const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ itemType, itemId, targetType, targetId }) => {
+  const actualType = itemType || targetType || 'match';
+  const actualId = itemId || targetId || 'default-id';
   const [submitted, setSubmitted] = useState<boolean | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showReason, setShowReason] = useState(false);
@@ -30,8 +34,8 @@ export const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({ itemType, item
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          item_type: itemType,
-          item_id: itemId,
+          item_type: actualType,
+          item_id: actualId,
           is_helpful: pendingHelpful,
           reason,
         }),
